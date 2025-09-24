@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test APIs para GitHub Pages</title>
+</head>
+<body>
+    <h1>🧪 Test de APIs en GitHub Pages</h1>
+    <button onclick="testDNS()">Probar DNS</button>
+    <button onclick="testGeoIP()">Probar GeoIP</button>
+    <div id="results"></div>
+
+    <script>
+        async function testDNS() {
+            try {
+                const response = await fetch('https://cloudflare-dns.com/dns-query?name=google.com&type=A', {
+                    headers: { 'Accept': 'application/dns-json' }
+                });
+                const data = await response.json();
+                document.getElementById('results').innerHTML +=
+                    `<p>✅ DNS: ${data.Answer[0].data}</p>`;
+            } catch (error) {
+                document.getElementById('results').innerHTML +=
+                    `<p>❌ DNS Error: ${error.message}</p>`;
+            }
+        }
+
+        async function testGeoIP() {
+            try {
+                const response = await fetch('https://ipapi.co/8.8.8.8/json/');
+                const data = await response.json();
+                document.getElementById('results').innerHTML +=
+                    `<p>✅ GeoIP: ${data.city}, ${data.country_name}</p>`;
+            } catch (error) {
+                document.getElementById('results').innerHTML +=
+                    `<p>❌ GeoIP Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
