@@ -328,13 +328,18 @@ function showDownloads() {
     document.getElementById('downloadsSection').classList.remove('hidden');
 }
 
+function showBinaryTranslator() {
+    hideAllSections();
+    document.getElementById('binaryTranslatorSection').classList.remove('hidden');
+}
+
 function showResults() {
     hideAllSections();
     document.getElementById('resultsSection').classList.remove('hidden');
 }
 
 function hideAllSections() {
-    const sections = ['mainMenu', 'investigationSection', 'retoSection', 'helpSection', 'downloadsSection', 'resultsSection'];
+    const sections = ['mainMenu', 'investigationSection', 'retoSection', 'helpSection', 'downloadsSection', 'binaryTranslatorSection', 'resultsSection'];
     sections.forEach(id => document.getElementById(id).classList.add('hidden'));
 }
 
@@ -793,6 +798,155 @@ function updateScoreDisplay() {
 // UTILIDADES
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// TRADUCTOR DE BITS
+
+// Función para convertir texto a binario
+function textToBinary() {
+    const textInput = document.getElementById('textInput');
+    const text = textInput.value.trim();
+
+    if (!text) {
+        alert('🤔 Escribe algo de texto para convertir a binario');
+        return;
+    }
+
+    const binaryOutput = document.getElementById('binaryOutput');
+    const bitsVisual = document.getElementById('bitsVisual');
+
+    let binaryString = '';
+    let binaryArray = [];
+
+    // Convertir cada carácter a binario
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const ascii = char.charCodeAt(0);
+        const binary = ascii.toString(2).padStart(8, '0');
+
+        binaryString += binary + ' ';
+        binaryArray.push(binary);
+    }
+
+    // Mostrar el resultado en texto
+    binaryOutput.textContent = binaryString.trim();
+
+    // Crear visualización interactiva de bits
+    createBitsVisualization(binaryArray, text);
+}
+
+// Función para convertir binario a texto
+function binaryToText() {
+    const binaryInput = document.getElementById('binaryInput');
+    const binary = binaryInput.value.trim();
+    const textOutput = document.getElementById('textOutput');
+
+    if (!binary) {
+        textOutput.textContent = '🤔 Ingresa una secuencia de 0s y 1s';
+        textOutput.style.color = '#e74c3c';
+        return;
+    }
+
+    // Validar que solo contenga 0s, 1s y espacios
+    if (!/^[01\s]+$/.test(binary)) {
+        textOutput.textContent = '❌ Error: Solo se permiten 0s, 1s y espacios';
+        textOutput.style.color = '#e74c3c';
+        return;
+    }
+
+    try {
+        // Limpiar espacios extra y dividir en bytes (grupos de 8 bits)
+        const cleanBinary = binary.replace(/\s+/g, ' ').trim();
+        const bytes = cleanBinary.split(' ').filter(byte => byte.length > 0);
+
+        let result = '';
+
+        for (const byte of bytes) {
+            // Verificar que cada byte tenga exactamente 8 bits
+            if (byte.length !== 8) {
+                throw new Error(`Byte inválido: "${byte}" (debe tener 8 bits)`);
+            }
+
+            // Convertir de binario a decimal y luego a carácter
+            const decimal = parseInt(byte, 2);
+            const char = String.fromCharCode(decimal);
+            result += char;
+        }
+
+        textOutput.textContent = result || '(resultado vacío)';
+        textOutput.style.color = '#27ae60';
+
+        // Actualizar el campo de texto principal
+        document.getElementById('textInput').value = result;
+
+    } catch (error) {
+        textOutput.textContent = `❌ Error: ${error.message}`;
+        textOutput.style.color = '#e74c3c';
+    }
+}
+
+// Función para crear la visualización interactiva de bits
+function createBitsVisualization(binaryArray, originalText) {
+    const bitsVisual = document.getElementById('bitsVisual');
+    bitsVisual.innerHTML = '';
+
+    binaryArray.forEach((byte, byteIndex) => {
+        // Crear un contenedor para cada byte (carácter)
+        const byteContainer = document.createElement('div');
+        byteContainer.style.display = 'flex';
+        byteContainer.style.gap = '2px';
+        byteContainer.style.margin = '5px';
+        byteContainer.style.padding = '5px';
+        byteContainer.style.background = 'rgba(255, 255, 255, 0.1)';
+        byteContainer.style.borderRadius = '8px';
+        byteContainer.style.position = 'relative';
+
+        // Agregar etiqueta del carácter
+        const charLabel = document.createElement('div');
+        charLabel.textContent = `'${originalText[byteIndex]}'`;
+        charLabel.style.position = 'absolute';
+        charLabel.style.top = '-25px';
+        charLabel.style.left = '50%';
+        charLabel.style.transform = 'translateX(-50%)';
+        charLabel.style.fontSize = '0.8em';
+        charLabel.style.color = '#ecf0f1';
+        charLabel.style.fontWeight = 'bold';
+        byteContainer.appendChild(charLabel);
+
+        // Crear cada bit del byte
+        for (let i = 0; i < byte.length; i++) {
+            const bit = document.createElement('div');
+            bit.className = `bit ${byte[i] === '1' ? 'one' : 'zero'}`;
+            bit.textContent = byte[i];
+            bit.title = `Bit ${i + 1} del carácter '${originalText[byteIndex]}' (ASCII ${originalText.charCodeAt(byteIndex)})`;
+
+            // Agregar animación con delay
+            bit.style.animation = `fadeInScale 0.5s ease ${(byteIndex * 8 + i) * 0.05}s both`;
+
+            byteContainer.appendChild(bit);
+        }
+
+        bitsVisual.appendChild(byteContainer);
+    });
+
+    // Agregar estilo de animación si no existe
+    if (!document.getElementById('bitsAnimation')) {
+        const style = document.createElement('style');
+        style.id = 'bitsAnimation';
+        style.textContent = `
+            @keyframes fadeInScale {
+                from {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
 }
 
 // INICIALIZACIÓN

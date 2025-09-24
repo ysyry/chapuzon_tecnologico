@@ -168,6 +168,16 @@
             color: white;
         }
 
+        .menu-btn.quinary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .menu-btn.senary {
+            background: linear-gradient(135deg, #ffd89b, #19547b);
+            color: white;
+        }
+
         /* BOTONES */
         .btn {
             padding: 12px 24px;
@@ -531,6 +541,247 @@
             padding: 8px 16px;
         }
 
+        /* TRADUCTOR DE BITS */
+        .translator-container {
+            display: grid;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .translator-box {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e0e0e0;
+        }
+
+        .translator-box h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.2em;
+        }
+
+        .translator-box textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .translator-box textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .bits-visualization {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .bits-visualization h3 {
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .binary-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            word-wrap: break-word;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bits-visual {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .bit {
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .bit.zero {
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .bit.one {
+            background: #333;
+            color: white;
+            border: 2px solid #333;
+        }
+
+        .bit:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .output-display {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .explanation-box {
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+        }
+
+        .explanation-box h4 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .explanation-box p {
+            margin: 8px 0;
+            color: #34495e;
+        }
+
+        /* CREADOR DE IMÁGENES CON BITS */
+        .image-creator-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 50px);
+            grid-template-rows: repeat(8, 50px);
+            gap: 2px;
+            margin: 30px auto;
+            width: fit-content;
+            background: #e0e0e0;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .grid-bit {
+            background: white;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8em;
+            color: #999;
+            user-select: none;
+        }
+
+        .grid-bit:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .grid-bit.active {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+
+        .code-display {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 20px 0;
+            min-height: 100px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .creator-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .preset-images {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .preset-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5em;
+        }
+
+        .preset-btn:hover {
+            background: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .translator-container {
+                gap: 20px;
+            }
+
+            .translator-box, .bits-visualization {
+                padding: 15px;
+            }
+
+            .bit {
+                width: 20px;
+                height: 20px;
+                font-size: 0.7em;
+            }
+
+            .image-creator-grid {
+                grid-template-columns: repeat(8, 35px);
+                grid-template-rows: repeat(8, 35px);
+            }
+        }
+
         /* FOOTER */
         .footer {
             background: rgba(0, 0, 0, 0.8);
@@ -651,6 +902,12 @@
                         </button>
                         <button class="menu-btn quaternary" onclick="showDownloads()">
                             📥 Herramientas Python
+                        </button>
+                        <button class="menu-btn quinary" onclick="showBinaryTranslator()">
+                            💾 El Traductor de Bits
+                        </button>
+                        <button class="menu-btn senary" onclick="showImageCreator()">
+                            🎨 Creador de Imágenes con Bits
                         </button>
                     </div>
                 </div>
@@ -814,6 +1071,105 @@
                             pip install -r requirements.txt<br>
                             python detectives_de_la_red.py
                         </code>
+                    </div>
+
+                    <button onclick="showMainMenu()" class="btn back">🔙 Volver al menú</button>
+                </div>
+            </div>
+
+            <!-- TRADUCTOR DE BITS -->
+            <div id="binaryTranslatorSection" class="section hidden">
+                <div class="card">
+                    <h2>💾 El Traductor de Bits</h2>
+                    <p>Descubre cómo la computadora convierte texto en los 0s y 1s que entiende:</p>
+
+                    <div class="translator-container">
+                        <!-- Texto a Binario -->
+                        <div class="translator-box">
+                            <h3>📝 Información (Lo que leemos)</h3>
+                            <textarea id="textInput" placeholder="Escribe una palabra o frase..." rows="3"></textarea>
+                            <button onclick="textToBinary()" class="btn primary">🔢 Traducir a Binario</button>
+                        </div>
+
+                        <!-- Visualización de Bits -->
+                        <div class="bits-visualization">
+                            <h3>💻 Datos (Lo que entiende la máquina)</h3>
+                            <div id="binaryOutput" class="binary-display">
+                                Los bits aparecerán aquí...
+                            </div>
+                            <div id="bitsVisual" class="bits-visual">
+                                <!-- Aquí aparecerán los rectángulos de bits -->
+                            </div>
+                        </div>
+
+                        <!-- Binario a Texto -->
+                        <div class="translator-box">
+                            <h3>🔢 Traducir de vuelta a texto</h3>
+                            <textarea id="binaryInput" placeholder="Pega aquí una secuencia de 0s y 1s..." rows="3"></textarea>
+                            <button onclick="binaryToText()" class="btn secondary">📝 Traducir a Texto</button>
+                            <div id="textOutput" class="output-display"></div>
+                        </div>
+                    </div>
+
+                    <div class="explanation-box">
+                        <h4>🎓 ¿Qué está pasando?</h4>
+                        <p>• Cada letra tiene un número único (código ASCII)</p>
+                        <p>• Ese número se convierte a binario (base 2)</p>
+                        <p>• Los rectángulos negros son 1s, los blancos son 0s</p>
+                        <p>• ¡La computadora solo entiende estos 1s y 0s!</p>
+                    </div>
+
+                    <button onclick="showMainMenu()" class="btn back">🔙 Volver al menú</button>
+                </div>
+            </div>
+
+            <!-- CREADOR DE IMÁGENES CON BITS -->
+            <div id="imageCreatorSection" class="section hidden">
+                <div class="card">
+                    <h2>🎨 El Creador de Imágenes con Bits</h2>
+                    <p>¡Dibuja tu propia imagen usando solo 0s y 1s! Haz clic en los cuadros para pintar:</p>
+
+                    <!-- Cuadrícula de dibujo 8x8 -->
+                    <div id="imageGrid" class="image-creator-grid">
+                        <!-- Se generará dinámicamente con JavaScript -->
+                    </div>
+
+                    <!-- Controles -->
+                    <div class="creator-controls">
+                        <button onclick="clearGrid()" class="btn secondary">🧹 Limpiar Todo</button>
+                        <button onclick="invertGrid()" class="btn tertiary">🔄 Invertir Colores</button>
+                        <button onclick="copyImageCode()" class="btn primary">📋 Copiar Código</button>
+                    </div>
+
+                    <!-- Área de código -->
+                    <div class="translator-box">
+                        <h3>💾 Código de tu Imagen (0s y 1s)</h3>
+                        <textarea id="imageCodeDisplay" class="code-display" rows="8" placeholder="Los 0s y 1s de tu dibujo aparecerán aquí..."></textarea>
+                        <button onclick="pasteImageCode()" class="btn primary">📥 Pegar Código y Dibujar</button>
+                    </div>
+
+                    <!-- Imágenes predefinidas -->
+                    <div class="translator-box">
+                        <h3>🎮 Dibujos de Ejemplo</h3>
+                        <p>¡Prueba estos diseños haciendo clic!</p>
+                        <div class="preset-images">
+                            <button class="preset-btn" onclick="loadPreset('smile')" title="Carita feliz">😊</button>
+                            <button class="preset-btn" onclick="loadPreset('heart')" title="Corazón">❤️</button>
+                            <button class="preset-btn" onclick="loadPreset('house')" title="Casa">🏠</button>
+                            <button class="preset-btn" onclick="loadPreset('tree')" title="Árbol">🌳</button>
+                            <button class="preset-btn" onclick="loadPreset('star')" title="Estrella">⭐</button>
+                            <button class="preset-btn" onclick="loadPreset('arrow')" title="Flecha">⬆️</button>
+                        </div>
+                    </div>
+
+                    <!-- Explicación educativa -->
+                    <div class="explanation-box">
+                        <h4>🎓 ¿Qué está pasando aquí?</h4>
+                        <p>• Cada cuadro es un <strong>píxel</strong> de tu imagen</p>
+                        <p>• Los cuadros blancos son <strong>0s</strong> (apagado)</p>
+                        <p>• Los cuadros negros son <strong>1s</strong> (encendido)</p>
+                        <p>• ¡Las imágenes en la computadora son solo matrices de números!</p>
+                        <p>• Esta cuadrícula de 8×8 tiene 64 bits (8 bytes) de información</p>
                     </div>
 
                     <button onclick="showMainMenu()" class="btn back">🔙 Volver al menú</button>
