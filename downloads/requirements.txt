@@ -1,0 +1,5 @@
+# Dependencias para Detectives de la Red
+# Para instalar: pip install -r requirements.txt
+
+geoip2>=4.7.0
+maxminddb>=2.2.0

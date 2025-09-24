@@ -210,12 +210,8 @@ async function resolverDNS(dominio) {
     console.log(`🔍 Resolviendo DNS para ${dominio}...`);
 
     try {
-        // Usar DNS-over-HTTPS de Cloudflare
-        const response = await fetch(`https://cloudflare-dns.com/dns-query?name=${dominio}&type=A`, {
-            headers: {
-                'Accept': 'application/dns-json'
-            }
-        });
+        // Usar DNS-over-HTTPS de Google (compatible con CORS)
+        const response = await fetch(`https://dns.google/resolve?name=${dominio}&type=A`);
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -327,13 +323,18 @@ function showHelp() {
     document.getElementById('helpSection').classList.remove('hidden');
 }
 
+function showDownloads() {
+    hideAllSections();
+    document.getElementById('downloadsSection').classList.remove('hidden');
+}
+
 function showResults() {
     hideAllSections();
     document.getElementById('resultsSection').classList.remove('hidden');
 }
 
 function hideAllSections() {
-    const sections = ['mainMenu', 'investigationSection', 'retoSection', 'helpSection', 'resultsSection'];
+    const sections = ['mainMenu', 'investigationSection', 'retoSection', 'helpSection', 'downloadsSection', 'resultsSection'];
     sections.forEach(id => document.getElementById(id).classList.add('hidden'));
 }
 
@@ -459,7 +460,7 @@ function mostrarResultados(sitio, resultados) {
     bannerDiv.innerHTML = `
         <h3>✅ INFORMACIÓN VERIFICABLE</h3>
         <p>Datos obtenidos de fuentes públicas en tiempo real</p>
-        <p><small>📡 DNS: Cloudflare DNS-over-HTTPS | 🌍 Geolocalización: ipapi.co, ip-api.com</small></p>
+        <p><small>📡 DNS: Google DNS-over-HTTPS | 🌍 Geolocalización: ipapi.co, ip-api.com</small></p>
     `;
     container.appendChild(bannerDiv);
 
@@ -639,7 +640,7 @@ function mostrarResumen(sitio, resultados) {
 
         <div style="margin-top: 25px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px;">
             <h4>✅ Verificación de datos:</h4>
-            <p>• <strong>IPs:</strong> Resueltas por Cloudflare DNS-over-HTTPS en tiempo real</p>
+            <p>• <strong>IPs:</strong> Resueltas por Google DNS-over-HTTPS en tiempo real</p>
             <p>• <strong>Ubicación:</strong> Consultada en APIs de geolocalización públicas</p>
             <p>• <strong>Servicios:</strong> Detectados por rangos de IP conocidos y verificables</p>
             <p>• <strong>100% verificable:</strong> Puedes comprobar estos datos en otros servicios</p>
