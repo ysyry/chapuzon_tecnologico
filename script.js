@@ -333,13 +333,22 @@ function showBinaryTranslator() {
     document.getElementById('binaryTranslatorSection').classList.remove('hidden');
 }
 
+function showImageCreator() {
+    hideAllSections();
+    document.getElementById('imageCreatorSection').classList.remove('hidden');
+    // Inicializar la cuadrícula si no existe
+    if (!document.querySelector('#imageGrid .grid-bit')) {
+        initializeImageGrid();
+    }
+}
+
 function showResults() {
     hideAllSections();
     document.getElementById('resultsSection').classList.remove('hidden');
 }
 
 function hideAllSections() {
-    const sections = ['mainMenu', 'investigationSection', 'retoSection', 'helpSection', 'downloadsSection', 'binaryTranslatorSection', 'resultsSection'];
+    const sections = ['mainMenu', 'investigationSection', 'retoSection', 'helpSection', 'downloadsSection', 'binaryTranslatorSection', 'imageCreatorSection', 'resultsSection'];
     sections.forEach(id => document.getElementById(id).classList.add('hidden'));
 }
 
@@ -947,6 +956,244 @@ function createBitsVisualization(binaryArray, originalText) {
         `;
         document.head.appendChild(style);
     }
+}
+
+// CREADOR DE IMÁGENES CON BITS
+
+// Inicializar la cuadrícula 8x8
+function initializeImageGrid() {
+    const grid = document.getElementById('imageGrid');
+    grid.innerHTML = '';
+
+    for (let i = 0; i < 64; i++) {
+        const bit = document.createElement('div');
+        bit.className = 'grid-bit';
+        bit.textContent = '0';
+        bit.addEventListener('click', () => toggleBit(i));
+        grid.appendChild(bit);
+    }
+    updateImageCode();
+}
+
+// Alternar el estado de un bit (0 <-> 1)
+function toggleBit(index) {
+    const bits = document.querySelectorAll('#imageGrid .grid-bit');
+    const bit = bits[index];
+
+    if (bit.classList.contains('active')) {
+        bit.classList.remove('active');
+        bit.textContent = '0';
+    } else {
+        bit.classList.add('active');
+        bit.textContent = '1';
+    }
+
+    updateImageCode();
+}
+
+// Actualizar el código en tiempo real
+function updateImageCode() {
+    const bits = document.querySelectorAll('#imageGrid .grid-bit');
+    const codeDisplay = document.getElementById('imageCodeDisplay');
+
+    let code = '';
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+            const index = row * 8 + col;
+            code += bits[index].textContent;
+        }
+        if (row < 7) code += '\n'; // Nueva línea entre filas
+    }
+
+    codeDisplay.value = code;
+}
+
+// Limpiar toda la cuadrícula
+function clearGrid() {
+    const bits = document.querySelectorAll('#imageGrid .grid-bit');
+    bits.forEach(bit => {
+        bit.classList.remove('active');
+        bit.textContent = '0';
+    });
+    updateImageCode();
+}
+
+// Invertir todos los colores
+function invertGrid() {
+    const bits = document.querySelectorAll('#imageGrid .grid-bit');
+    bits.forEach(bit => {
+        if (bit.classList.contains('active')) {
+            bit.classList.remove('active');
+            bit.textContent = '0';
+        } else {
+            bit.classList.add('active');
+            bit.textContent = '1';
+        }
+    });
+    updateImageCode();
+}
+
+// Copiar código al portapapeles
+function copyImageCode() {
+    const codeDisplay = document.getElementById('imageCodeDisplay');
+    const code = codeDisplay.value;
+
+    if (!code.trim()) {
+        alert('🤔 Primero dibuja algo en la cuadrícula');
+        return;
+    }
+
+    navigator.clipboard.writeText(code).then(() => {
+        alert('📋 ¡Código copiado al portapapeles!');
+    }).catch(() => {
+        // Fallback para navegadores más antiguos
+        codeDisplay.select();
+        document.execCommand('copy');
+        alert('📋 ¡Código copiado al portapapeles!');
+    });
+}
+
+// Pegar código y dibujar en la cuadrícula
+function pasteImageCode() {
+    const codeDisplay = document.getElementById('imageCodeDisplay');
+    const code = codeDisplay.value.trim();
+
+    if (!code) {
+        alert('🤔 Pega primero un código de 0s y 1s en el área de texto');
+        return;
+    }
+
+    // Validar que solo contenga 0s, 1s y saltos de línea
+    if (!/^[01\n\r\s]*$/.test(code)) {
+        alert('❌ Error: El código solo puede contener 0s, 1s y saltos de línea');
+        return;
+    }
+
+    // Limpiar y dividir en filas
+    const rows = code.split('\n').map(row => row.replace(/\s/g, ''));
+
+    if (rows.length !== 8) {
+        alert('❌ Error: Necesitas exactamente 8 filas de bits');
+        return;
+    }
+
+    // Verificar que cada fila tenga 8 bits
+    for (let i = 0; i < 8; i++) {
+        if (rows[i].length !== 8) {
+            alert(`❌ Error: La fila ${i + 1} debe tener exactamente 8 bits, tiene ${rows[i].length}`);
+            return;
+        }
+    }
+
+    // Aplicar el código a la cuadrícula
+    const bits = document.querySelectorAll('#imageGrid .grid-bit');
+
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+            const index = row * 8 + col;
+            const bit = bits[index];
+            const value = rows[row][col];
+
+            if (value === '1') {
+                bit.classList.add('active');
+                bit.textContent = '1';
+            } else {
+                bit.classList.remove('active');
+                bit.textContent = '0';
+            }
+        }
+    }
+
+    alert('✅ ¡Imagen cargada correctamente!');
+}
+
+// Cargar imágenes predefinidas
+function loadPreset(type) {
+    const presets = {
+        smile: [
+            '00000000',
+            '01100110',
+            '01100110',
+            '00000000',
+            '10000001',
+            '01000010',
+            '00111100',
+            '00000000'
+        ],
+        heart: [
+            '00000000',
+            '01100110',
+            '11111111',
+            '11111111',
+            '01111110',
+            '00111100',
+            '00011000',
+            '00000000'
+        ],
+        house: [
+            '00010000',
+            '00111000',
+            '01111100',
+            '11111110',
+            '11111110',
+            '11011110',
+            '11011110',
+            '11111110'
+        ],
+        tree: [
+            '00011000',
+            '00111100',
+            '01111110',
+            '11111111',
+            '00011000',
+            '00011000',
+            '00111100',
+            '01111110'
+        ],
+        star: [
+            '00010000',
+            '00111000',
+            '00111000',
+            '11111111',
+            '01111110',
+            '00111100',
+            '01101110',
+            '11000011'
+        ],
+        arrow: [
+            '00010000',
+            '00111000',
+            '01111100',
+            '11111110',
+            '00111000',
+            '00111000',
+            '00111000',
+            '00111000'
+        ]
+    };
+
+    const preset = presets[type];
+    if (!preset) return;
+
+    const bits = document.querySelectorAll('#imageGrid .grid-bit');
+
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+            const index = row * 8 + col;
+            const bit = bits[index];
+            const value = preset[row][col];
+
+            if (value === '1') {
+                bit.classList.add('active');
+                bit.textContent = '1';
+            } else {
+                bit.classList.remove('active');
+                bit.textContent = '0';
+            }
+        }
+    }
+
+    updateImageCode();
 }
 
 // INICIALIZACIÓN
