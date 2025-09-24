@@ -48,11 +48,15 @@ def mostrar_bienvenida():
     print("   Cuando visitas un sitio web, tus datos no viajan")
     print("   directamente. ¡Hacen un viaje increíble saltando")
     print("   de computadora en computadora alrededor del mundo!")
+    print("\n🚨 IMPORTANTE - VERSIÓN EDUCATIVA:")
+    print("   ⚠️  Las ubicaciones que verás son SIMULADAS")
+    print("   ⚠️  NO son las ubicaciones reales de los servidores")
+    print("   ⚠️  Para ubicaciones reales, usa la versión completa")
     print("\n   Esta versión SIMPLE te mostrará:")
-    print("   ✓ Cada 'salto' que hacen tus datos")
-    print("   ✓ Las direcciones IP de cada parada")
-    print("   ✓ Ubicaciones educativas simuladas")
-    print("   ✓ El tiempo que tarda cada salto")
+    print("   ✓ Cada 'salto' que hacen tus datos (REAL)")
+    print("   ✓ Las direcciones IP de cada parada (REAL)")
+    print("   ✓ Ubicaciones educativas simuladas (SIMULADO)")
+    print("   ✓ El tiempo que tarda cada salto (REAL)")
     print("\n   ⭐ Sin necesidad de instalar nada más!")
     print("\n" + "=" * 60)
 
@@ -73,8 +77,11 @@ def detectar_sistema_operativo():
 
 def simular_ubicacion_educativa(ip):
     """
+    ⚠️  IMPORTANTE: DATOS SIMULADOS PARA FINES EDUCATIVOS
+    ⚠️  Estas NO son las ubicaciones reales de los servidores
+    ⚠️  Para ubicaciones reales, usa la versión completa con GeoIP
+
     Simula ubicaciones basadas en rangos de IP para propósitos educativos
-    Esto es solo para enseñar conceptos, no son ubicaciones reales
     """
     # Extraer partes de la IP para crear una simulación consistente
     partes = ip.split('.')
@@ -177,6 +184,7 @@ def analizar_y_mostrar_ruta(lineas):
     """Analiza las líneas del traceroute y muestra la información de forma amigable"""
     print("\n" + "=" * 70)
     print("📍 MAPA DE TU VIAJE DIGITAL:")
+    print("🚨 RECORDATORIO: Las ubicaciones son simuladas (educativo)")
     print("=" * 70 + "\n")
 
     salto_num = 0

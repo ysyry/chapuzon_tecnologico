@@ -134,6 +134,35 @@ def extraer_ip(linea: str) -> Optional[str]:
 
     return None
 
+def obtener_ubicacion_api(ip: str) -> Tuple[str, str]:
+    """
+    Obtiene ubicación real usando APIs gratuitas online
+    """
+    import json
+    import urllib.request
+
+    # Lista de APIs gratuitas para geolocalización
+    apis = [
+        f"http://ip-api.com/json/{ip}",
+        f"https://ipapi.co/{ip}/json/"
+    ]
+
+    for api_url in apis:
+        try:
+            with urllib.request.urlopen(api_url, timeout=5) as response:
+                data = json.loads(response.read().decode())
+
+                # Para ip-api.com
+                if 'city' in data and 'country' in data:
+                    return (data.get('city', 'Desconocida'), data.get('country', 'Desconocido'))
+                # Para ipapi.co
+                elif 'city' in data and 'country_name' in data:
+                    return (data.get('city', 'Desconocida'), data.get('country_name', 'Desconocido'))
+        except:
+            continue
+
+    return ("Desconocida", "Desconocido")
+
 def obtener_ubicacion(ip: str, lector_geo) -> Tuple[str, str]:
     """
     Obtiene la ubicación geográfica de una dirección IP
@@ -146,7 +175,9 @@ def obtener_ubicacion(ip: str, lector_geo) -> Tuple[str, str]:
         Tuple[str, str]: (ciudad, país) o ("Desconocida", "Desconocido")
     """
     if not lector_geo:
-        return ("Sin GeoIP", "Sin GeoIP")
+        # Si no hay base de datos local, usar API online
+        print(f"   🌐 Consultando ubicación online para {ip}...")
+        return obtener_ubicacion_api(ip)
 
     try:
         respuesta = lector_geo.city(ip)
@@ -360,8 +391,9 @@ def cargar_base_datos_geoip() -> Optional[object]:
         except Exception as e:
             print(f"⚠️  Error al cargar la base de datos descargada: {e}")
 
-    print("\n⚠️  No se pudo obtener la base de datos GeoIP")
-    print("   El programa continuará sin mostrar ubicaciones geográficas")
+    print("\n⚠️  No se pudo cargar la base de datos GeoIP local")
+    print("   ✅ Usaremos APIs online para obtener ubicaciones REALES")
+    print("   🌐 Las ubicaciones serán consultadas en tiempo real")
     return None
 
 def main():
@@ -383,6 +415,11 @@ def main():
 
     # Cargar base de datos GeoIP
     lector_geo = cargar_base_datos_geoip()
+
+    if lector_geo:
+        print("✅ Modo: Geolocalización con base de datos local")
+    else:
+        print("✅ Modo: Geolocalización con APIs online (DATOS REALES)")
 
     # Bucle principal
     while True:
